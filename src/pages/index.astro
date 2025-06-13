@@ -1,0 +1,185 @@
+---
+// index.astro
+import Layout from "../layouts/Layout.astro";
+import Loader from "../components/Loader.astro";
+import BallButton from "../components/BallButton.astro";
+import AboutMe from "../section/AboutMe.astro";
+import SectionDivider from "../components/SectionDivider.astro";
+
+import { Image } from "astro:assets";
+import profile from "../assets/profile.webp";
+import TechStack from "../section/TechStack.astro";
+---
+
+<Layout>
+  <Loader />
+  <main id="main" class="opacity-0 transition-opacity duration-100">
+    <section
+      class="relative overflow-hidden min-h-screen flex items-center justify-center flex-col text-center bg-gradient-to-b from-[#0a0a1f] via-[#1a0933] to-[#0f0f0f]"
+    >
+      <div
+        id="comet-container"
+        class="absolute inset-0 pointer-events-none z-0"
+      >
+      </div>
+      <Image
+        src={profile}
+        alt="Foto de perfil"
+        class="w-50 h-50 mb-5 rounded-full"
+      />
+      <h1
+        class="text-5xl font-bold leading-tight font-dm capitalize text-gray-100 z-10"
+      >
+        DIEGO LOPEZ
+      </h1>
+      <h1
+        id="role-text"
+        class="text-5xl font-bold leading-tight font-dm capitalize text-violet-400 z-10 whitespace-pre"
+      >
+        SOFTWARE ENGINEER
+      </h1>
+      <p class="mt-4 text-lg font-semibold max-w-2xl text-gray-300 z-10">
+        Designing elegant code structures and building seamless digital
+        experiences through performance-driven development. I blend creativity
+        and logic to deliver robust, scalable, and impactful software.
+      </p>
+
+      <BallButton title="Scroll Down" id="scroll-btn" />
+    </section>
+    <AboutMe is:client="load" />
+    <SectionDivider text="Tech Stack" />
+    <TechStack />
+  </main>
+
+  <script>
+    import { gsap } from "gsap";
+
+    import ScrollToPlugin from "gsap/ScrollToPlugin";
+    gsap.registerPlugin(ScrollToPlugin);
+
+    let cometInterval: any = null;
+
+    function createComet(container: any) {
+      const comet = document.createElement("div");
+
+      const size = Math.random() * 6 + 10;
+      const fromLeft = Math.random() < 0.5;
+      const startX = fromLeft ? 0 : Math.random() * window.innerWidth;
+      const startY = fromLeft ? Math.random() * window.innerHeight : 0;
+
+      comet.style.position = "absolute";
+      comet.style.left = `${startX}px`;
+      comet.style.top = `${startY}px`;
+      comet.style.width = `${size}px`;
+      comet.style.height = `${size}px`;
+      comet.style.borderRadius = "50%";
+      comet.style.background = "rgba(255, 255, 255, 1)";
+      comet.style.boxShadow = "0 0 15px 6px rgba(255,255,255,0.3)";
+      comet.style.filter = "blur(1.5px)";
+      comet.style.opacity = "1";
+
+      container.appendChild(comet);
+
+      gsap.to(comet, {
+        x: window.innerWidth * 1.5,
+        y: window.innerHeight * 1.5,
+        rotation: 45,
+        opacity: 0,
+        duration: 3 + Math.random() * 2,
+        ease: "power1.out",
+        onComplete: () => comet.remove(),
+      });
+    }
+
+    function startComets(container: any) {
+      if (!cometInterval) {
+        cometInterval = setInterval(() => createComet(container), 200);
+      }
+    }
+
+    function stopComets() {
+      if (cometInterval) {
+        clearInterval(cometInterval);
+        cometInterval = null;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("comet-container");
+      startComets(container);
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") {
+          stopComets();
+        } else {
+          startComets(container);
+        }
+      });
+
+      const roleEl = document.getElementById("role-text")!;
+      const texts = [
+        "SOFTWARE ENGINEER",
+        "FULLSTACK DEVELOPER",
+        "DEVOPS ENGINEER",
+        "CLOUTH ENTHUSIAST",
+        "DIGITALIZATION ENGINEER",
+      ];
+      const scrambleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&";
+      const displayDuration = 6000;
+      const scrambleDuration = 2000;
+      let currentIndex = 0;
+
+      function scrambleToText(newText: any) {
+        const maxLength = newText.length;
+        let frame = 0;
+        const totalFrames = Math.floor(scrambleDuration / 40);
+        const fadeDuration = 300;
+
+        const interval = setInterval(() => {
+          const result = [];
+
+          for (let i = 0; i < maxLength; i++) {
+            const progress = frame / totalFrames;
+            const revealIndex = Math.floor(progress * maxLength);
+
+            const char =
+              i <= revealIndex
+                ? newText[i]
+                : scrambleChars[
+                    Math.floor(Math.random() * scrambleChars.length)
+                  ];
+
+            const span = `<span style="opacity: ${i <= revealIndex ? 1 : 0.4}; transition: opacity ${fadeDuration}ms ease;">${char}</span>`;
+            result.push(span);
+          }
+
+          roleEl.innerHTML = result.join("");
+
+          if (++frame >= totalFrames) {
+            clearInterval(interval);
+            roleEl.textContent = newText;
+          }
+        }, 40);
+      }
+
+      function cycleTitles() {
+        currentIndex = (currentIndex + 1) % texts.length;
+        scrambleToText(texts[currentIndex]);
+      }
+
+      // Inicializar primer texto
+      roleEl.textContent = texts[currentIndex];
+      setInterval(cycleTitles, displayDuration);
+
+      const btn = document.getElementById("scroll-btn")!;
+
+      btn.addEventListener("click", () => {
+        gsap.to(window, {
+          duration: 1.5,
+          scrollTo: "#about-me",
+          ease: "power2.inOut",
+        });
+      });
+    });
+  </script>
+</Layout>

@@ -1,0 +1,78 @@
+---
+// components/SectionDivider.astro
+const { text = "Featured Work", id } = Astro.props;
+---
+
+<div
+  class="relative h-[150px] flex items-center justify-center overflow-hidden bg-[#0f0f0f] text-white font-dm"
+>
+  <!-- Background marquee title container -->
+  <div class="absolute w-full overflow-hidden" id="marquee-container">
+    <div
+      id="marquee-wrapper"
+      class="flex whitespace-nowrap text-[10vw] font-extrabold opacity-[0.05] select-none uppercase"
+    >
+      <div id="marquee" class="flex">
+        <span class="mx-8">{text}</span>
+        <span class="mx-8">{text}</span>
+        <span class="mx-8">{text}</span>
+        <span class="mx-8">{text}</span>
+        <span class="mx-8">{text}</span>
+      </div>
+      <div class="flex" aria-hidden="true">
+        <span class="mx-8">{text}</span>
+        <span class="mx-8">{text}</span>
+        <span class="mx-8">{text}</span>
+        <span class="mx-8">{text}</span>
+        <span class="mx-8">{text}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Foreground centered title -->
+  <h2 class="relative text-5xl font-semibold z-10">{text}</h2>
+</div>
+
+<script>
+  import gsap from "gsap";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const marquee = document.getElementById("marquee-wrapper")!;
+    let lastScroll = window.scrollY;
+    let velocity = 1;
+    let current = 0;
+
+    const loop = () => {
+      current += velocity;
+      marquee.style.transform = `translateX(${-current}px)`;
+      if (current >= marquee.offsetWidth / 2) {
+        current = 0;
+      }
+      requestAnimationFrame(loop);
+    };
+
+    loop();
+
+    window.addEventListener("scroll", () => {
+      const newScroll = window.scrollY;
+      const delta = newScroll - lastScroll;
+      velocity = gsap.utils.clamp(0.5, 6, Math.abs(delta)) * 0.5;
+      lastScroll = newScroll;
+    });
+
+    gsap.ticker.add(() => {
+      velocity *= 0.9;
+      if (velocity < 0.3) velocity = 0.3;
+    });
+  });
+</script>
+
+<style>
+  #marquee-wrapper span {
+    white-space: nowrap;
+  }
+  #marquee-wrapper {
+    display: flex;
+    will-change: transform;
+  }
+</style>

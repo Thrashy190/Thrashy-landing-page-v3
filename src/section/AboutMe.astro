@@ -1,0 +1,90 @@
+---
+// components/AboutMe.astro
+import VerticalGallery from "../components/VerticalGallery.astro";
+import SectionDivider from "../components/SectionDivider.astro";
+import BallButton from "../components/BallButton.astro";
+import IconBallButton from "../components/IconBallButton.astro";
+---
+
+<section id="about-me" class="min-h-screen bg-[#0f0f0f] text-white py-24">
+  <SectionDivider text="About Me" />
+  <div class="grid grid-cols-2 px-8 pt-10">
+    <div id="about-text" class="flex flex-col justify-center items-center">
+      <div class="text-5xl font-semibold text-violet-400 font-dm">
+        Get to Know Me
+      </div>
+      <div
+        class="pt-10 text-xl font-semibold max-w-2xl text-gray-300 text-center"
+      >
+        Software Engineer with experience in the automotive and software
+        development industries. Specialized in critical systems and custom
+        applications, combining technical excellence and leadership skills.
+        Freelancer in my spare time and currently developing a tech startup.
+        Proficient in multiple programming languages, agile methodologies, and
+        architectural design. Committed to innovation, integrity, and quality in
+        every project.
+      </div>
+      <div class="pt-10 flex gap-10">
+        <IconBallButton icon="github-brands" id="github" />
+        <IconBallButton icon="linkedin-brands" id="linkedin" />
+        <BallButton title="RESUME" id="resume" />
+      </div>
+    </div>
+    <VerticalGallery />
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import ScrollTrigger from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    gsap.from("#about-text", {
+      y: 100,
+      opacity: 0,
+      duration: 2,
+      stagger: 0.2,
+      ease: "power4.out",
+      scrollTrigger: {
+        trigger: "#about-text",
+        start: "top 40%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse",
+        // markers: true,
+      },
+    });
+
+    gsap.from("#gallery", {
+      y: 100,
+      opacity: 0,
+      duration: 2,
+      stagger: 0.2,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: "#about-text",
+        start: "top 40%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse",
+        // markers: true,
+      },
+    });
+
+    const btnGithub = document.getElementById("github")!;
+    const btnLinkedin = document.getElementById("linkedin")!;
+    const btnResume = document.getElementById("resume")!;
+
+    btnResume.addEventListener("click", () => {
+      window.open("/files/resume.pdf", "_blank");
+    });
+
+    btnGithub.addEventListener("click", () => {
+      window.open("https://github.com/Thrashy190", "_blank");
+    });
+
+    btnLinkedin.addEventListener("click", () => {
+      window.open("https://www.linkedin.com/in/diegoalopezm/", "_blank");
+    });
+  });
+</script>

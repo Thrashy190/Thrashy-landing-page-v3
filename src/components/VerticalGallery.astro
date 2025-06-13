@@ -1,0 +1,94 @@
+---
+import { Image } from "astro:assets";
+import daimler from "../assets/daimler.webp";
+import main from "../assets/main.webp";
+import softtek from "../assets/softtek.webp";
+---
+
+<div id="gallery" class="relative h-[900px] w-full overflow-hidden bg-[#0f0f0f] mt-15">
+  <!-- Gradiente superior e inferior -->
+  <div
+    class="pointer-events-none absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#0f0f0f] to-transparent z-10"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#0f0f0f] to-transparent z-10"
+  >
+  </div>
+
+  <div id="galleryContainer" class="absolute inset-0 flex gap-4 px-4">
+    <div id="col1" class="flex flex-col gap-4 w-1/2 items-center"></div>
+    <div id="col2" class="flex flex-col gap-4 mt-20 w-1/2 items-center"></div>
+  </div>
+</div>
+
+<script>
+  import gsap from "gsap";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const images = [
+      "/src/assets/daimler.webp",
+      "/src/assets/profile.webp",
+      "/src/assets/main.webp",
+      "/src/assets/softtek.webp",
+      "/src/assets/zf.webp",
+      "/src/assets/git.webp",
+      "/src/assets/grad.webp",
+      "/src/assets/tec.webp",
+      "/src/assets/zf-plantas.webp",
+      "/src/assets/oracle.webp",
+    ];
+
+    const createImage = (src: string) => {
+      const wrapper = document.createElement("div");
+      wrapper.className =
+        "w-full min-h-[300px] bg-neutral-900 rounded-lg flex items-center justify-center overflow-hidden shadow-lg";
+
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = "gallery image";
+      img.className = "object-cover w-full h-full";
+      wrapper.appendChild(img);
+
+      return wrapper;
+    };
+
+    const col1 = document.getElementById("col1")!;
+    const col2 = document.getElementById("col2")!;
+
+    const fillColumn = (col: HTMLElement, offset: number) => {
+      for (let i = 0; i < 10; i++) {
+        const src = images[(i + offset) % images.length];
+        col.appendChild(createImage(src));
+      }
+    };
+
+    fillColumn(col1, 0);
+    fillColumn(col2, 5);
+
+    const animateColumn = (col: HTMLElement, offset: number) => {
+      const duration = 40;
+      const loopScroll = () => {
+        gsap.fromTo(
+          col,
+          { y: 0 },
+          {
+            y: "-50%",
+            duration: duration,
+            ease: "none",
+            onComplete: () => {
+              col.innerHTML = "";
+              fillColumn(col, offset);
+              loopScroll();
+            },
+          }
+        );
+      };
+
+      loopScroll();
+    };
+
+    animateColumn(col1, 0);
+    animateColumn(col2, 5);
+  });
+</script>

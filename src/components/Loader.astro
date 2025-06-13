@@ -1,0 +1,87 @@
+---
+
+---
+
+<div
+  id="loader"
+  class="fixed inset-0 flex flex-col items-center justify-center bg-radial from-[#1a0933] from-40% to-[#0f0f0f] z-50"
+>
+  <h1 id="loader-text" class="text-7xl text-gray-300 font-black font-dm"></h1>
+
+  <div class="w-100 h-4 mt-6 bg-[#0f0f0f] overflow-hidden relative">
+    <div id="loader-bar" class="h-full bg-gray-300 w-0 relative"></div>
+  </div>
+
+  <!-- <p id="percentage" class="mt-2 text-gray-300 text-2xl font-semibold font-dm">
+    0
+  </p> -->
+</div>
+
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const loaderText = document.getElementById("loader-text")!;
+    const main = document.getElementById("main");
+    const navBar = document.getElementById("nav");
+
+    const progressBar = document.getElementById("loader-bar");
+    const percentText = document.getElementById("percentage");
+
+    const text = "THRASHY";
+    loaderText.innerHTML = text
+      .split("")
+      .map(
+        (char) =>
+          `<span class='inline-block opacity-0 translate-y-5'>${char}</span>`
+      )
+      .join("");
+
+    const tl = gsap.timeline();
+
+    tl.to("#loader-text span", {
+      opacity: 1,
+      y: 0,
+      stagger: 0.05,
+      duration: 0.3,
+      ease: "power2.out",
+    })
+      .to(
+        progressBar,
+        {
+          width: "100%",
+          duration: 1.5,
+          ease: "none",
+        },
+        "-=0.3"
+      )
+      .to(
+        percentText,
+        {
+          innerText: 100,
+          duration: 1.5,
+          snap: { innerText: 1 },
+          ease: "none",
+        },
+        "<"
+      )
+      .to("#loader", {
+        y: "200%",
+        duration: 1,
+        delay: 0.5,
+        ease: "power2.inOut",
+      })
+      .set("#loader", { display: "none" })
+
+      .to(navBar, {
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out",
+      })
+      .to(main, {
+        opacity: 1,
+        duration: 1,
+        ease: "power2.out",
+      });
+  });
+</script>
