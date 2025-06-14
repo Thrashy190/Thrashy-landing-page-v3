@@ -32,11 +32,14 @@ import softtek from "../assets/softtek.webp";
       "/src/assets/main.webp",
       "/src/assets/softtek.webp",
       "/src/assets/zf.webp",
+      "/src/assets/icpc.webp",
       "/src/assets/git.webp",
       "/src/assets/grad.webp",
       "/src/assets/tec.webp",
       "/src/assets/zf-plantas.webp",
       "/src/assets/oracle.webp",
+      "/src/assets/torneo.webp",
+      "/src/assets/price.webp",
     ];
 
     const createImage = (src: string) => {
@@ -57,7 +60,7 @@ import softtek from "../assets/softtek.webp";
     const col2 = document.getElementById("col2")!;
 
     const fillColumn = (col: HTMLElement, offset: number) => {
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 15; i++) {
         const src = images[(i + offset) % images.length];
         col.appendChild(createImage(src));
       }
@@ -67,13 +70,13 @@ import softtek from "../assets/softtek.webp";
     fillColumn(col2, 5);
 
     const animateColumn = (col: HTMLElement, offset: number) => {
-      const duration = 40;
+      const duration = 100;
       const loopScroll = () => {
         gsap.fromTo(
           col,
           { y: 0 },
           {
-            y: "-50%",
+            y: "-450%",
             duration: duration,
             ease: "none",
             onComplete: () => {

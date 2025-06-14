@@ -31,7 +31,7 @@ import BallButton from "../components/BallButton.astro";
     class="hidden md:flex md:col-span-3 w-full min-h-screen justify-center items-center relative"
   >
     <div
-      class="absolute w-[30rem] h-[30rem] border border-white/10 rounded-full"
+      class="absolute w-[25rem] h-[25rem] border border-white/10 rounded-full"
       id="orbit1"
     >
       {
@@ -41,14 +41,14 @@ import BallButton from "../components/BallButton.astro";
             alt={tech.icon}
             class="orbit-icon category-icon"
             data-categories={tech.categories.join(",")}
-            style={`transform: rotate(${i * (360 / languages.length)}deg) translateY(-15rem) rotate(-${i * (360 / languages.length)}deg);`}
+            style={`transform: rotate(${i * (360 / languages.length)}deg) translateY(-12rem) rotate(-${i * (360 / languages.length)}deg);`}
           />
         ))
       }
     </div>
 
     <div
-      class="absolute w-[46rem] h-[46rem] border border-white/10 rounded-full"
+      class="absolute w-[35rem] h-[35rem] border border-white/10 rounded-full"
       id="orbit2"
     >
       {
@@ -58,14 +58,14 @@ import BallButton from "../components/BallButton.astro";
             alt={tech.icon}
             class="orbit-icon-2 category-icon"
             data-categories={tech.categories.join(",")}
-            style={`transform: rotate(${i * (360 / cloudInfra.length)}deg) translateY(-23rem) rotate(-${i * (360 / cloudInfra.length)}deg);`}
+            style={`transform: rotate(${i * (360 / cloudInfra.length)}deg) translateY(-18rem) rotate(-${i * (360 / cloudInfra.length)}deg);`}
           />
         ))
       }
     </div>
 
     <div
-      class="absolute w-[62rem] h-[62rem] border border-white/10 rounded-full"
+      class="absolute w-[45rem] h-[45rem] border border-white/10 rounded-full"
       id="orbit3"
     >
       {
@@ -75,7 +75,7 @@ import BallButton from "../components/BallButton.astro";
             alt={tech.icon}
             class="orbit-icon-3 category-icon"
             data-categories={tech.categories.join(",")}
-            style={`transform: rotate(${i * (360 / frameworks.length)}deg) translateY(-31rem) rotate(-${i * (360 / frameworks.length)}deg);`}
+            style={`transform: rotate(${i * (360 / frameworks.length)}deg) translateY(-23rem) rotate(-${i * (360 / frameworks.length)}deg);`}
           />
         ))
       }
