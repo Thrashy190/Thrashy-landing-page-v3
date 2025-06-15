@@ -70,20 +70,22 @@
       paused: true,
     });
 
-    document.querySelectorAll("a, button, .pulse-cursor").forEach((el) => {
-      el.addEventListener("mouseenter", () => {
-        beat.restart();
-        beat.play();
-      });
+    document
+      .querySelectorAll("a, button, .pulse-cursor, .move-btn")
+      .forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          beat.restart();
+          beat.play();
+        });
 
-      el.addEventListener("mouseleave", () => {
-        beat.pause();
-        gsap.to(cursor, {
-          scale: 0.85,
-          duration: 0.2,
-          ease: "power1.out",
+        el.addEventListener("mouseleave", () => {
+          beat.pause();
+          gsap.to(cursor, {
+            scale: 0.85,
+            duration: 0.2,
+            ease: "power1.out",
+          });
         });
       });
-    });
   });
 </script>

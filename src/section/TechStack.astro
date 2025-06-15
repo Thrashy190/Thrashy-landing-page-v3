@@ -1,102 +1,94 @@
 ---
 import { frameworks, languages, cloudInfra } from "../data/stack";
 import BallButton from "../components/BallButton.astro";
+import { Icon } from "astro-icon/components";
+import SectionDivider from "../components/SectionDivider.astro";
 ---
 
-<section
-  class="w-full min-h-screen bg-[#0f0f0f] px-4 grid md:grid-cols-4 grid-cols-1"
-  id="tech-orbit"
->
-  <!-- Marquee Mobile -->
-  <div class="md:hidden w-full h-40 overflow-hidden relative flex items-center">
+<section class="w-full min-h-screen bg-[#0f0f0f] px-4" id="tech-orbit">
+  <SectionDivider text="Tech Stack" />
+  <div class="grid md:grid-cols-5 grid-cols-1 h-full" id="stack">
+    <!-- Orbitas -->
     <div
-      class="absolute animate-marquee whitespace-nowrap text-white text-2xl font-semibold gap-6 flex"
+      class="hidden md:flex md:col-span-3 w-full h-full justify-center items-center relative pt-100"
     >
-      {
-        [...languages, ...frameworks, ...cloudInfra]
-          .filter((t) => t.categories.includes("My Main Stack"))
-          .map((t) => (
+      <div id="play" class="absolute z-10 hidden">
+        <Icon
+          id="play-icon"
+          name="play-solid"
+          class="move-btn w-50 h-50 hover:bg-[#1a0933] rounded-full"
+        />
+      </div>
+      <div id="pause" class="absolute z-10">
+        <Icon
+          id="pause-icon"
+          name="pause-solid"
+          class="move-btn w-50 h-50 hover:bg-[#1a0933] rounded-full"
+        />
+      </div>
+
+      <div
+        class="absolute w-[25rem] h-[25rem] border border-white/10 rounded-full"
+        id="orbit1"
+      >
+        {
+          languages.map((tech, i) => (
             <img
-              src={`https://skillicons.dev/icons?i=${t.icon}`}
-              alt={t.icon}
-              class="w-10 h-10 mx-4"
+              src={`https://skillicons.dev/icons?i=${tech.icon}`}
+              alt={tech.icon}
+              class="orbit-icon category-icon"
+              data-categories={tech.categories.join(",")}
+              style={`transform: rotate(${i * (360 / languages.length)}deg) translateY(-12rem) rotate(-${i * (360 / languages.length)}deg);`}
             />
           ))
-      }
-    </div>
-  </div>
+        }
+      </div>
 
-  <!-- Orbitas -->
-  <div
-    class="hidden md:flex md:col-span-3 w-full min-h-screen justify-center items-center relative"
-  >
-    <div
-      class="absolute w-[25rem] h-[25rem] border border-white/10 rounded-full"
-      id="orbit1"
-    >
-      {
-        languages.map((tech, i) => (
-          <img
-            src={`https://skillicons.dev/icons?i=${tech.icon}`}
-            alt={tech.icon}
-            class="orbit-icon category-icon"
-            data-categories={tech.categories.join(",")}
-            style={`transform: rotate(${i * (360 / languages.length)}deg) translateY(-12rem) rotate(-${i * (360 / languages.length)}deg);`}
-          />
-        ))
-      }
-    </div>
+      <div
+        class="absolute w-[35rem] h-[35rem] border border-white/10 rounded-full"
+        id="orbit2"
+      >
+        {
+          cloudInfra.map((tech, i) => (
+            <img
+              src={`https://skillicons.dev/icons?i=${tech.icon}`}
+              alt={tech.icon}
+              class="orbit-icon-2 category-icon"
+              data-categories={tech.categories.join(",")}
+              style={`transform: rotate(${i * (360 / cloudInfra.length)}deg) translateY(-18rem) rotate(-${i * (360 / cloudInfra.length)}deg);`}
+            />
+          ))
+        }
+      </div>
 
-    <div
-      class="absolute w-[35rem] h-[35rem] border border-white/10 rounded-full"
-      id="orbit2"
-    >
-      {
-        cloudInfra.map((tech, i) => (
-          <img
-            src={`https://skillicons.dev/icons?i=${tech.icon}`}
-            alt={tech.icon}
-            class="orbit-icon-2 category-icon"
-            data-categories={tech.categories.join(",")}
-            style={`transform: rotate(${i * (360 / cloudInfra.length)}deg) translateY(-18rem) rotate(-${i * (360 / cloudInfra.length)}deg);`}
-          />
-        ))
-      }
+      <div
+        class="absolute w-[45rem] h-[45rem] border border-white/10 rounded-full"
+        id="orbit3"
+      >
+        {
+          frameworks.map((tech, i) => (
+            <img
+              src={`https://skillicons.dev/icons?i=${tech.icon}`}
+              alt={tech.icon}
+              class="orbit-icon-3 category-icon"
+              data-categories={tech.categories.join(",")}
+              style={`transform: rotate(${i * (360 / frameworks.length)}deg) translateY(-23rem) rotate(-${i * (360 / frameworks.length)}deg);`}
+            />
+          ))
+        }
+      </div>
     </div>
 
-    <div
-      class="absolute w-[45rem] h-[45rem] border border-white/10 rounded-full"
-      id="orbit3"
-    >
-      {
-        frameworks.map((tech, i) => (
-          <img
-            src={`https://skillicons.dev/icons?i=${tech.icon}`}
-            alt={tech.icon}
-            class="orbit-icon-3 category-icon"
-            data-categories={tech.categories.join(",")}
-            style={`transform: rotate(${i * (360 / frameworks.length)}deg) translateY(-23rem) rotate(-${i * (360 / frameworks.length)}deg);`}
-          />
-        ))
-      }
+    <!-- Botones Desktop -->
+    <div class="col-span-2 mt-20 flex flex-col justify-end items-center h-full">
+      <BallButton title="All" id="All" />
+      <BallButton title="My Main Stack" id="My Main Stack" />
+      <BallButton title="Frontend Stack" id="Frontend Stack" />
+      <BallButton title="Backend Stack" id="Backend Stack" />
+      <BallButton title="DevOps Stack" id="DevOps Stack" />
+      <BallButton title="AI/ML Solutions" id="AI/ML Solutions" />
+      <BallButton title="My OS favorites tools" id="My OS favorites tools" />
     </div>
-  </div>
-
-  <!-- Botones Desktop -->
-  <div class="hidden md:flex flex-col mt-20 items-start">
-    {
-      [
-        "All",
-        "My Main Stack",
-        "Frontend Stack",
-        "Backend Stack",
-        "DevOps Stack",
-        "AI/ML Solutions",
-        "My OS favorites tools",
-      ].map((cat) => <BallButton title={cat} id={cat} />)
-    }
-
-    <BallButton title="Toggle Rotation" id="toggle-spin" />
   </div>
 </section>
 
@@ -149,9 +141,38 @@ import BallButton from "../components/BallButton.astro";
   import { gsap } from "gsap";
 
   let orbit1Tween: any, orbit2Tween: any, orbit3Tween: any;
-  let isSpinning = true;
 
   document.addEventListener("DOMContentLoaded", () => {
+    gsap.from("#stack", {
+      y: 100,
+      opacity: 0,
+      duration: 2,
+      stagger: 0.2,
+      ease: "power4.out",
+      scrollTrigger: {
+        trigger: "#orbit1",
+        start: "top 60%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse",
+        // markers: true,
+      },
+    });
+
+    gsap.from("#stack", {
+      y: 100,
+      opacity: 0,
+      duration: 2,
+      stagger: 0.2,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: "#orbit2",
+        start: "top 60%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse",
+        // markers: true,
+      },
+    });
+
     orbit1Tween = gsap.to("#orbit1", {
       rotate: 360,
       duration: 60,
@@ -195,19 +216,23 @@ import BallButton from "../components/BallButton.astro";
     const defaultBtn = document.querySelector('[id="All"]') as HTMLElement;
     defaultBtn?.click();
 
-    // Toggle rotation logic
-    const toggleBtn = document.getElementById("toggle-spin");
-    toggleBtn?.addEventListener("click", () => {
-      if (isSpinning) {
-        orbit1Tween.pause();
-        orbit2Tween.pause();
-        orbit3Tween.pause();
-      } else {
-        orbit1Tween.resume();
-        orbit2Tween.resume();
-        orbit3Tween.resume();
-      }
-      isSpinning = !isSpinning;
+    const playBtn = document.getElementById("play")!;
+    const pauseBtn = document.getElementById("pause")!;
+
+    playBtn.addEventListener("click", () => {
+      orbit1Tween.resume();
+      orbit2Tween.resume();
+      orbit3Tween.resume();
+      playBtn.classList.add("hidden");
+      pauseBtn.classList.remove("hidden");
+    });
+
+    pauseBtn.addEventListener("click", () => {
+      orbit1Tween.restart().pause();
+      orbit2Tween.restart().pause();
+      orbit3Tween.restart().pause();
+      pauseBtn.classList.add("hidden");
+      playBtn.classList.remove("hidden");
     });
   });
 </script>

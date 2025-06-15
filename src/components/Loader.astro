@@ -11,10 +11,6 @@
   <div class="w-100 h-4 mt-6 bg-[#0f0f0f] overflow-hidden relative">
     <div id="loader-bar" class="h-full bg-gray-300 w-0 relative"></div>
   </div>
-
-  <!-- <p id="percentage" class="mt-2 text-gray-300 text-2xl font-semibold font-dm">
-    0
-  </p> -->
 </div>
 
 <script>
@@ -26,7 +22,6 @@
     const navBar = document.getElementById("nav");
 
     const progressBar = document.getElementById("loader-bar");
-    const percentText = document.getElementById("percentage");
 
     const text = "THRASHY";
     loaderText.innerHTML = text
@@ -54,16 +49,6 @@
           ease: "none",
         },
         "-=0.3"
-      )
-      .to(
-        percentText,
-        {
-          innerText: 100,
-          duration: 1.5,
-          snap: { innerText: 1 },
-          ease: "none",
-        },
-        "<"
       )
       .to("#loader", {
         y: "200%",

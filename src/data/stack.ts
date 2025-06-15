@@ -26,6 +26,8 @@ export const languages = [
 
 export const frameworks = [
   { icon: "react", categories: ["My Main Stack", "Frontend Stack"] },
+  { icon: "vite", categories: ["My Main Stack", "Frontend Stack"] },
+  { icon: "astro", categories: ["My Main Stack", "Frontend Stack"] },
   { icon: "nextjs", categories: ["My Main Stack", "Frontend Stack"] },
   { icon: "vue", categories: [] },
   { icon: "nestjs", categories: ["Backend Stack"] },
@@ -53,6 +55,11 @@ export const frameworks = [
 
 export const cloudInfra = [
   { icon: "docker", categories: ["DevOps Stack"] },
+  { icon: "gcp", categories: ["DevOps Stack"] },
+  { icon: "cloudflare", categories: ["DevOps Stack"] },
+  { icon: "terraform", categories: ["DevOps Stack"] },
+  { icon: "vercel", categories: ["DevOps Stack"] },
+
   {
     icon: "aws",
     categories: ["My Main Stack", "DevOps Stack", "AI/ML Solutions"],

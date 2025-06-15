@@ -4,7 +4,6 @@ import Layout from "../layouts/Layout.astro";
 import Loader from "../components/Loader.astro";
 import BallButton from "../components/BallButton.astro";
 import AboutMe from "../section/AboutMe.astro";
-import SectionDivider from "../components/SectionDivider.astro";
 
 import { Image } from "astro:assets";
 import profile from "../assets/profile.webp";
@@ -47,7 +46,6 @@ import TechStack from "../section/TechStack.astro";
       <BallButton title="Scroll Down" id="scroll-btn" />
     </section>
     <AboutMe is:client="load" />
-    <SectionDivider text="Tech Stack" />
     <TechStack />
   </main>
 
