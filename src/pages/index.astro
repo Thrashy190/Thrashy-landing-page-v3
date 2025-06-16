@@ -8,6 +8,7 @@ import AboutMe from "../section/AboutMe.astro";
 import { Image } from "astro:assets";
 import profile from "../assets/profile.webp";
 import TechStack from "../section/TechStack.astro";
+import Projects from "../section/Projects.astro";
 ---
 
 <Layout>
@@ -47,6 +48,7 @@ import TechStack from "../section/TechStack.astro";
     </section>
     <AboutMe is:client="load" />
     <TechStack />
+    <Projects />
   </main>
 
   <script>
@@ -119,7 +121,7 @@ import TechStack from "../section/TechStack.astro";
         "SOFTWARE ENGINEER",
         "FULLSTACK DEVELOPER",
         "DEVOPS ENGINEER",
-        "CLOUTH ENTHUSIAST",
+        "CLOUD ENTHUSIAST",
         "DIGITALIZATION ENGINEER",
       ];
       const scrambleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&";
