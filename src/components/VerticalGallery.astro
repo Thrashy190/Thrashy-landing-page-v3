@@ -5,7 +5,10 @@ import main from "../assets/main.webp";
 import softtek from "../assets/softtek.webp";
 ---
 
-<div id="gallery" class="relative h-[900px] w-full overflow-hidden bg-[#0f0f0f] mt-15">
+<div
+  id="gallery"
+  class="relative h-[900px] w-full overflow-hidden bg-[#0f0f0f] mt-15"
+>
   <!-- Gradiente superior e inferior -->
   <div
     class="pointer-events-none absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#0f0f0f] to-transparent z-10"
@@ -27,19 +30,19 @@ import softtek from "../assets/softtek.webp";
 
   document.addEventListener("DOMContentLoaded", () => {
     const images = [
-      "/src/assets/daimler.webp",
-      "/src/assets/profile.webp",
-      "/src/assets/main.webp",
-      "/src/assets/softtek.webp",
-      "/src/assets/zf.webp",
-      "/src/assets/icpc.webp",
-      "/src/assets/git.webp",
-      "/src/assets/grad.webp",
-      "/src/assets/tec.webp",
-      "/src/assets/zf-plantas.webp",
-      "/src/assets/oracle.webp",
-      "/src/assets/torneo.webp",
-      "/src/assets/price.webp",
+      "/images/daimler.webp",
+      "/images/profile.webp",
+      "/images/main.webp",
+      "/images/softtek.webp",
+      "/images/zf.webp",
+      "/images/icpc.webp",
+      "/images/git.webp",
+      "/images/grad.webp",
+      "/images/tec.webp",
+      "/images/zf-plantas.webp",
+      "/images/oracle.webp",
+      "/images/torneo.webp",
+      "/images/price.webp",
     ];
 
     const createImage = (src: string) => {
