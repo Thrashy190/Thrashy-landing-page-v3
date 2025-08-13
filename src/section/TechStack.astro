@@ -5,12 +5,11 @@ import { Icon } from "astro-icon/components";
 import SectionDivider from "../components/SectionDivider.astro";
 ---
 
-<section class="w-full min-h-screen h-[200%] bg-[#0f0f0f] px-4" id="tech-orbit">
-  <SectionDivider text="Tech Stack" />
+<section class="w-full min-h-[1000px] h-full bg-[#0f0f0f] px-4" id="tech-orbit">
   <div class="grid md:grid-cols-5 grid-cols-1 h-full" id="stack">
     <!-- Orbitas -->
     <div
-      class="hidden md:flex md:col-span-3 w-full h-full justify-center items-center relative pt-100"
+      class="hidden md:flex md:col-span-3 w-full h-full justify-center items-center relative pt-20"
     >
       <div id="play" class="absolute z-10 hidden">
         <Icon
@@ -82,7 +81,7 @@ import SectionDivider from "../components/SectionDivider.astro";
     <!-- Botones Desktop -->
     <div
       id="btns-stack"
-      class="col-span-2 mt-20 flex flex-col justify-end items-center h-full"
+      class="col-span-2 flex flex-col justify-end items-center h-full mb-20"
     >
       <BallButton title="All" id="All" />
       <BallButton title="My Main Stack" id="My Main Stack" />
