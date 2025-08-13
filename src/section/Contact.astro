@@ -1,0 +1,198 @@
+---
+import SectionDivider from "../components/SectionDivider.astro";
+import IconBallButton from "../components/IconBallButton.astro";
+---
+
+<section id="contact" class="min-h-screen bg-[#0f0f0f] text-white">
+  <SectionDivider text="Contact" />
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 px-8 pt-10 min-h-full">
+    <!-- Columna 1: Texto y Redes Sociales -->
+    <div
+      id="contact-info"
+      class="flex flex-col justify-center items-center lg:items-end"
+    >
+      <div
+        class="text-5xl font-semibold text-violet-400 font-dm text-center lg:text-left mb-8"
+      >
+        Let's Connect
+      </div>
+      <div
+        class="text-xl font-semibold text-gray-300 text-center lg:text-right max-w-lg mb-12"
+      >
+        I'm always open to discussing new opportunities, interesting projects,
+        or just having a chat about technology and innovation. Feel free to
+        reach out through any of these channels or send me a message directly.
+      </div>
+
+      <!-- Redes Sociales -->
+      <div class="flex flex-col lg:flex-row gap-6 mb-8">
+        <IconBallButton icon="github-brands" id="contact-github" />
+        <IconBallButton icon="linkedin-brands" id="contact-linkedin" />
+      </div>
+
+      <!-- Información de Contacto -->
+      <div class="text-gray-300 space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-2 h-2 bg-violet-400 rounded-full"></div>
+          <a href="mailto:diego456.dlm77@gmail.com" class="text-lg hover:text-violet-400 font-bold">
+            diego456.dlm77@gmail.com
+          </a>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-2 h-2 bg-violet-400 rounded-full"></div>
+          <span class="text-lg">Available for freelance projects</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-2 h-2 bg-violet-400 rounded-full"></div>
+          <span class="text-lg">Open to new opportunities</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna 2: Formulario -->
+    <div id="contact-form" class="flex flex-col justify-center">
+      <form
+        class="space-y-6 max-w-lg mx-auto lg:mx-0"
+        action="https://formsubmit.co/39feb51282cbd3f3f494ce1fc466ba98"
+        method="POST"
+      >
+        <div class="space-y-2">
+          <label for="name" class="text-lg font-semibold text-gray-300">
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            class="w-full px-4 py-3 bg-transparent border-2 border-gray-600 text-white placeholder-gray-400 focus:border-violet-400 focus:outline-none transition-colors duration-300"
+            placeholder="Your name"
+          />
+        </div>
+
+        <div class="space-y-2">
+          <label for="email" class="text-lg font-semibold text-gray-300">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            class="w-full px-4 py-3 bg-transparent border-2 border-gray-600 text-white placeholder-gray-400 focus:border-violet-400 focus:outline-none transition-colors duration-300"
+            placeholder="your.email@example.com"
+          />
+        </div>
+
+        <div class="space-y-2">
+          <label for="subject" class="text-lg font-semibold text-gray-300">
+            Subject
+          </label>
+          <input
+            type="text"
+            id="subject"
+            name="subject"
+            required
+            class="w-full px-4 py-3 bg-transparent border-2 border-gray-600 text-white placeholder-gray-400 focus:border-violet-400 focus:outline-none transition-colors duration-300"
+            placeholder="What's this about?"
+          />
+        </div>
+
+        <div class="space-y-2">
+          <label for="message" class="text-lg font-semibold text-gray-300">
+            Message
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            rows="6"
+            required
+            class="w-full px-4 py-3 bg-transparent border-2 border-gray-600 text-white placeholder-gray-400 focus:border-violet-400 focus:outline-none transition-colors duration-300 resize-none"
+            placeholder="Tell me about your project or opportunity..."
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-4 px-8 bg-violet-400 text-[#0f0f0f] font-semibold text-lg hover:bg-violet-300 transition-colors duration-300 transform hover:scale-105"
+        >
+          Send Message
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import ScrollTrigger from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Animación para la información de contacto
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#contact-info",
+        start: "0% 50%",
+        end: "20% 40%",
+        scrub: true,
+        toggleActions: "play none none reverse",
+      },
+    });
+
+    tl.from("#contact-info", {
+      y: 100,
+      opacity: 0,
+      duration: 1,
+      ease: "power3.out",
+    });
+
+    tl.from(
+      "#contact-form",
+      {
+        y: 100,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power4.out",
+      },
+      "-=0.5"
+    );
+
+    // Event listeners para los botones de redes sociales
+    const btnGithub = document.getElementById("contact-github");
+    const btnLinkedin = document.getElementById("contact-linkedin");
+
+    if (btnGithub) {
+      btnGithub.addEventListener("click", () => {
+        window.open("https://github.com/Thrashy190", "_blank");
+      });
+    }
+
+    if (btnLinkedin) {
+      btnLinkedin.addEventListener("click", () => {
+        window.open("https://www.linkedin.com/in/diegoalopezm/", "_blank");
+      });
+    }
+
+    // Animación para los inputs al hacer focus
+    const inputs = document.querySelectorAll("input, textarea");
+    inputs.forEach((input) => {
+      input.addEventListener("focus", () => {
+        gsap.to(input, {
+          scale: 1.02,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      });
+
+      input.addEventListener("blur", () => {
+        gsap.to(input, {
+          scale: 1,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      });
+    });
+  });
+</script>

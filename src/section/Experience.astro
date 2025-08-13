@@ -1,0 +1,223 @@
+---
+import ExperienceCard from "../components/ExperienceCard.astro";
+import { experiences } from "../const/experiences";
+
+// Group experiences in pairs (2 cards per slide)
+const experiencePairs = [];
+for (let i = 0; i < experiences.length; i += 2) {
+  if (i + 1 < experiences.length) {
+    experiencePairs.push([experiences[i], experiences[i + 1]]);
+  } else {
+    experiencePairs.push([experiences[i]]);
+  }
+}
+---
+
+<div
+  class="experience-section bg-gradient-to-b from-[#0f0f0f] via-[#1a0933] to-[#0f0f0f]"
+>
+  <div class="horizontal-section">
+    <div class="slides">
+      <div class="slide intro-slide flex flex-col items-center justify-center">
+        <h2>Welcome to My Experience</h2>
+        <p>
+          I have worked at leading companies in the technology industry,
+          developing innovative and scalable solutions that impact millions of
+          users.
+        </p>
+      </div>
+
+      {
+        experiencePairs.map((pair, pairIndex) => (
+          <div class="slide">
+            <div class="cards-container">
+              {pair.map((exp, expIndex) => (
+                <div class="card-wrapper">
+                  <ExperienceCard exp={exp} index={expIndex} />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- End Section -->
+</div>
+
+<style>
+  /* Basic Styles */
+  * {
+    box-sizing: border-box;
+  }
+
+  .experience-section {
+    color: white;
+    font-family: "Inter", sans-serif;
+  }
+
+  /* Intro Section */
+  .intro-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+  }
+
+  .intro-section h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #a855f7;
+    margin-bottom: 1rem;
+  }
+
+  .intro-section p {
+    font-size: 1.2rem;
+    color: #d1d5db;
+  }
+
+  /* Horizontal Section */
+  .horizontal-section {
+    overflow: hidden;
+  }
+
+  .slides {
+    display: flex;
+  }
+
+  .slide {
+    width: 100vw;
+    height: 100vh;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  /* Intro Slide */
+  .intro-slide {
+    text-align: center;
+  }
+
+  .intro-slide h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #a855f7;
+    margin-bottom: 1rem;
+  }
+
+  .intro-slide p {
+    font-size: 1.1rem;
+    color: #d1d5db;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  .cards-container {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1400px;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-wrapper {
+    flex: 1;
+    max-width: 900px;
+    height: 100%;
+  }
+
+  /* Single card centering */
+  .cards-container:has(.card-wrapper:only-child) {
+    justify-content: center;
+  }
+
+  .cards-container:has(.card-wrapper:only-child) .card-wrapper {
+    max-width: 800px;
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const slides = gsap.utils.toArray(".slide");
+
+    // Create horizontal scroll animation
+    const tween = gsap.to(".slides", {
+      ease: "none",
+      xPercent: -100 * (slides.length - 1),
+    });
+
+    // Create ScrollTrigger for horizontal scrolling
+    ScrollTrigger.create({
+      trigger: ".horizontal-section",
+      start: "top top",
+      end: "+=500%",
+      scrub: true,
+      pin: true,
+      animation: tween,
+    });
+
+    // Animate cards when they come into view
+    const cards = gsap.utils.toArray(".experience-card");
+    cards.forEach((card) => {
+      gsap.fromTo(
+        card as Element,
+        {
+          opacity: 0,
+          y: 50,
+          scale: 0.9,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1,
+          scrollTrigger: {
+            trigger: card as Element,
+            start: "left right-=20%",
+            end: "left left+=20%",
+            scrub: true,
+            containerAnimation: tween,
+          },
+        }
+      );
+    });
+
+    // Animate intro slide content
+    const introContent = document.querySelector(".intro-slide");
+    if (introContent) {
+      const introElements = introContent.querySelectorAll("h2, p");
+      gsap.fromTo(
+        Array.from(introElements),
+        {
+          opacity: 0,
+          y: 30,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: introContent,
+            start: "left right-=20%",
+            end: "left left+=20%",
+            scrub: true,
+            containerAnimation: tween,
+          },
+        }
+      );
+    }
+  });
+</script>

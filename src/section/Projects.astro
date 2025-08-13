@@ -1,5 +1,603 @@
 ---
-import SectionDivider from "../components/SectionDivider.astro";
+import { projects } from "../const/projects";
+import type { Project } from "../const/projects";
+
+// Get first project as default
+const defaultProject: Project = projects[0];
 ---
 
-<div class="min-h-screen"><SectionDivider text="Projects" /></div>
+<section id="projects" class="min-h-screen bg-[#0f0f0f] text-white py-24">
+  <div class="container mx-auto px-8">
+    <!-- Header -->
+    <div class="text-center mb-16">
+      <h2 class="text-5xl font-bold text-violet-400 mb-6 font-dm">
+        My Projects
+      </h2>
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+        Explore my latest projects and see how I bring ideas to life with modern
+        technologies
+      </p>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Left Column: Project List -->
+      <div class="lg:col-span-1">
+        <div class="grid grid-cols-2 gap-3">
+          {
+            projects.map((project: Project) => (
+              <div
+                class="project-item cursor-pointer aspect-square p-4 rounded-xl border-2 border-gray-700 hover:border-violet-400 transition-all duration-300 bg-white/[0.02] hover:bg-white/[0.05] flex flex-col justify-between"
+                data-project-id={project.id}
+                style={`--project-color: ${project.color}; --project-color-rgb: ${project.colorRgb};`}
+              >
+                <div class="flex items-center justify-between mb-2">
+                  <span
+                    class="px-2 py-1 rounded-full text-md font-medium"
+                    style={`background: ${project.statusColor}20; color: ${project.statusColor}; border: 1px solid ${project.statusColor}40;`}
+                  >
+                    {project.status}
+                  </span>
+                </div>
+                <div class="flex-1 flex flex-col justify-center">
+                  <h3 class="text-lg font-semibold text-white leading-tight mb-2">
+                    {project.name}
+                  </h3>
+                  <p class="text-md text-gray-400 leading-tight line-clamp-3">
+                    {project.description}
+                  </p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Right Column: Project Details -->
+      <div class="lg:col-span-2">
+        <div
+          id="project-details"
+          class="project-card border-2 border-gray-700 rounded-3xl p-8 h-full relative overflow-hidden"
+          style={`--project-color: ${defaultProject.color}; --project-color-rgb: ${defaultProject.colorRgb};`}
+        >
+          <!-- Animated Border -->
+          <div class="animated-border"></div>
+
+          <!-- Project Header -->
+          <div class="mb-8">
+            <div class="flex items-center justify-between mb-4">
+              <h3
+                class="text-4xl font-bold font-dm"
+                id="project-name"
+                style={`color: ${defaultProject.color}`}
+              >
+                {defaultProject.name}
+              </h3>
+              <span
+                class="px-4 py-2 rounded-full text-sm font-semibold"
+                id="project-status"
+                style={`background: ${defaultProject.statusColor}20; color: ${defaultProject.statusColor}; border: 1px solid ${defaultProject.statusColor}40;`}
+              >
+                {defaultProject.status}
+              </span>
+            </div>
+            <p
+              class="text-gray-300 text-lg leading-relaxed"
+              id="project-description"
+            >
+              {defaultProject.longDescription}
+            </p>
+          </div>
+
+          <!-- Technologies -->
+          <div class="mb-8">
+            <h4
+              class="text-2xl font-semibold mb-4"
+              style={`color: ${defaultProject.color}`}
+            >
+              Technologies Used
+            </h4>
+            <div class="flex flex-wrap gap-3" id="project-technologies">
+              {
+                defaultProject.technologies.map((tech: string) => (
+                  <span
+                    class="px-4 py-2 rounded-xl text-sm font-medium border transition-all duration-300 hover:scale-105"
+                    style={`
+                      background: rgba(${defaultProject.colorRgb}, 0.15);
+                      color: ${defaultProject.color};
+                      border-color: rgba(${defaultProject.colorRgb}, 0.3);
+                    `}
+                  >
+                    {tech}
+                  </span>
+                ))
+              }
+            </div>
+          </div>
+
+          <!-- Links -->
+          <div class="flex flex-wrap gap-4" id="project-links">
+            <a
+              href={defaultProject.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+              style={`
+                background: rgba(${defaultProject.colorRgb}, 0.2);
+                color: ${defaultProject.color};
+                border: 2px solid rgba(${defaultProject.colorRgb}, 0.4);
+              `}
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                ></path>
+              </svg>
+              View on GitHub
+            </a>
+            {
+              defaultProject.liveUrl && (
+                <a
+                  href={defaultProject.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+                  style={`
+                    background: rgba(${defaultProject.colorRgb}, 0.2);
+                    color: ${defaultProject.color};
+                    border: 2px solid rgba(${defaultProject.colorRgb}, 0.4);
+                  `}
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    />
+                  </svg>
+                  Live Demo
+                </a>
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Animated Border Effect */
+  .project-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .animated-border {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: conic-gradient(
+      from 0deg,
+      transparent,
+      var(--project-color),
+      transparent,
+      var(--project-color),
+      transparent
+    );
+    border-radius: inherit;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .project-card:hover .animated-border {
+    opacity: 1;
+    animation: rotate 3s linear infinite;
+  }
+
+  /* Ensure the card content stays above the animated border */
+  .project-card > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Add a mask to show only the border */
+  .project-card::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    background: #0f0f0f;
+    border-radius: calc(inherit - 2px);
+    z-index: 1;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Project Item Hover Effects */
+  .project-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  .project-item.active {
+    border-color: var(--project-color);
+    background: rgba(var(--project-color-rgb), 0.1);
+  }
+
+  /* Line clamp utility */
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .project-card {
+      margin-top: 2rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .project-card {
+      padding: 1.5rem;
+    }
+
+    #project-name {
+      font-size: 2rem;
+    }
+
+    /* En móviles, mostrar 3 columnas para aprovechar mejor el espacio */
+    .grid.grid-cols-2 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .project-item {
+      aspect-ratio: 1;
+      padding: 0.75rem;
+    }
+
+    .project-item h3 {
+      font-size: 0.75rem;
+    }
+
+    .project-item span {
+      font-size: 0.625rem;
+      padding: 0.25rem 0.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    /* En pantallas muy pequeñas, volver a 2 columnas */
+    .grid.grid-cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  interface Project {
+    id: number;
+    name: string;
+    description: string;
+    longDescription: string;
+    technologies: string[];
+    status: string;
+    statusColor: string;
+    githubUrl: string;
+    liveUrl: string | null;
+    color: string;
+    colorRgb: string;
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const projectItems = document.querySelectorAll(".project-item");
+    const projectDetails = document.getElementById("project-details");
+    const projectName = document.getElementById("project-name");
+    const projectStatus = document.getElementById("project-status");
+    const projectDescription = document.getElementById("project-description");
+    const projectTechnologies = document.getElementById("project-technologies");
+    const projectLinks = document.getElementById("project-links");
+
+    const projects: Project[] = [
+      {
+        id: 1,
+        name: "Lade",
+        description:
+          "Logistics and freight management system for fleets, drivers, and cargo tracking with real-time monitoring.",
+        longDescription:
+          "A comprehensive logistics and freight management system designed to streamline fleet operations, driver management, and cargo tracking. The platform provides real-time monitoring capabilities, route optimization, driver performance analytics, and integrated billing systems. Built with modern technologies to ensure scalability and reliability for large-scale logistics operations.",
+        technologies: ["React", "NestJS", "AWS", "Nginx", "PostgreSQL"],
+        status: "Live",
+        statusColor: "#10b981",
+        githubUrl: "https://github.com/Thrashy190/lade",
+        liveUrl: "https://lade.com",
+        color: "#8b5cf6",
+        colorRgb: "139, 92, 246",
+      },
+      {
+        id: 2,
+        name: "UShortener",
+        description:
+          "High-performance URL shortener built with Go, featuring Redis caching and AWS deployment with Terraform.",
+        longDescription:
+          "A fast and scalable URL shortening service built with Go for optimal performance. Features include Redis caching for lightning-fast redirects, Terraform infrastructure as code for reliable AWS deployment, and comprehensive analytics tracking. The system is designed to handle millions of URL redirects with minimal latency and maximum reliability.",
+        technologies: ["Go", "Redis", "Terraform", "AWS", "Docker"],
+        status: "Completed",
+        statusColor: "#3b82f6",
+        githubUrl: "https://github.com/Thrashy190/ushortener",
+        liveUrl: "https://ushortener.com",
+        color: "#ef4444",
+        colorRgb: "239, 68, 68",
+      },
+      {
+        id: 3,
+        name: "Cosmos",
+        description:
+          "High-performance headless CMS built from scratch to deliver exceptional speed and developer experience.",
+        longDescription:
+          "A custom-built headless CMS designed to outperform existing solutions like Strapi. Built with performance as the primary focus, Cosmos provides a blazing-fast API, flexible content modeling, and developer-friendly features. The system is optimized for high-traffic applications and offers seamless integration with modern frontend frameworks.",
+        technologies: [
+          "Node.js",
+          "TypeScript",
+          "PostgreSQL",
+          "Redis",
+          "GraphQL",
+          "Docker",
+        ],
+        status: "Live",
+        statusColor: "#f59e0b",
+        githubUrl: "https://github.com/Thrashy190/cosmos",
+        liveUrl: null,
+        color: "#06b6d4",
+        colorRgb: "6, 182, 212",
+      },
+      {
+        id: 4,
+        name: "Nucleos",
+        description:
+          "Complete compiler with lexical, syntactic, semantic analysis and virtual machine implementation.",
+        longDescription:
+          "A comprehensive compiler project that implements the full compilation pipeline from source code to execution. Features include lexical analysis (tokenization), syntactic analysis (parsing), semantic analysis (type checking), and a custom virtual machine for code execution. Built with Python and Qt5 for the development environment, providing a complete IDE experience for language development.",
+        technologies: [
+          "Python",
+          "Qt5",
+          "Compiler Design",
+          "Virtual Machine",
+          "IDE Development",
+        ],
+        status: "Live",
+        statusColor: "#10b981",
+        githubUrl: "https://github.com/Thrashy190/nucleos",
+        liveUrl: null,
+        color: "#84cc16",
+        colorRgb: "132, 204, 22",
+      },
+      {
+        id: 5,
+        name: "Arqontact",
+        description:
+          "B2B platform connecting architects with service providers, featuring project management and networking tools.",
+        longDescription:
+          "A comprehensive B2B platform designed specifically for architects to manage their projects and connect with service providers. The platform combines project management tools with social networking features, allowing architects to find contractors, suppliers, and collaborators efficiently. Features include project portfolios, provider directories, messaging systems, and integrated project tracking.",
+        technologies: [
+          "Flutter",
+          "React.js",
+          "Go",
+          "AWS",
+          "PostgreSQL",
+          "Firebase",
+        ],
+        status: "Completed",
+        statusColor: "#3b82f6",
+        githubUrl: "https://github.com/Thrashy190/arqontact",
+        liveUrl: "https://arqontact.com",
+        color: "#ec4899",
+        colorRgb: "236, 72, 153",
+      },
+      {
+        id: 6,
+        name: "Avgi",
+        description:
+          "Educational platform helping high school and university students choose careers and reduce dropout rates.",
+        longDescription:
+          "An innovative educational platform designed to help students make informed career decisions and reduce academic dropout rates. The platform provides career guidance, academic planning tools, and personalized recommendations based on student interests and aptitudes. Features include career assessments, university program comparisons, and mentorship connections to support student success.",
+        technologies: [
+          "React.js",
+          "Firebase",
+          "Node.js",
+          "Machine Learning",
+          "Analytics",
+        ],
+        status: "In Progress",
+        statusColor: "#f59e0b",
+        githubUrl: "https://github.com/Thrashy190/avgi",
+        liveUrl: "https://avgi.edu",
+        color: "#f97316",
+        colorRgb: "249, 115, 22",
+      },
+      {
+        id: 7,
+        name: "Mobile Fitness App",
+        description:
+          "Gym tracking application for daily exercise progress and workout management with personal analytics.",
+        longDescription:
+          "A comprehensive mobile fitness application designed to help users track their gym progress and maintain consistent workout routines. Features include exercise logging, progress tracking, workout planning, and personal analytics. The app provides detailed insights into performance trends, helps users stay motivated, and offers customizable workout plans based on individual fitness goals.",
+        technologies: [
+          "React Native",
+          "SQLite",
+          "Node.js",
+          "Analytics",
+          "Push Notifications",
+        ],
+        status: "In Progress",
+        statusColor: "#f59e0b",
+        githubUrl: "https://github.com/Thrashy190/mobile-fitness",
+        liveUrl: null,
+        color: "#f97316",
+        colorRgb: "249, 115, 22",
+      },
+      {
+        id: 8,
+        name: "AtomDB",
+        description:
+          "SQLite-inspired database engine built in C++ with ongoing migration to Rust for enhanced performance.",
+        longDescription:
+          "A lightweight, embedded database engine inspired by SQLite, initially developed in C++ for maximum performance and portability. Currently undergoing migration to Rust to leverage modern memory safety features and improved concurrency. The database provides ACID compliance, SQL support, and is designed for embedded applications requiring reliable data storage with minimal resource usage.",
+        technologies: [
+          "C++",
+          "Rust",
+          "Database Design",
+          "SQL Parser",
+          "Embedded Systems",
+        ],
+        status: "Live",
+        statusColor: "#10b981",
+        githubUrl: "https://github.com/Thrashy190/atomdb",
+        liveUrl: null,
+        color: "#84cc16",
+        colorRgb: "132, 204, 22",
+      },
+    ];
+
+    function updateProjectDetails(project: any) {
+      // Remove active class from all items
+      projectItems.forEach((item) => item.classList.remove("active"));
+
+      // Add active class to selected item
+      const selectedItem = document.querySelector(
+        `[data-project-id="${project.id}"]`
+      );
+      if (selectedItem) {
+        selectedItem.classList.add("active");
+      }
+
+      // Animate the card change
+      gsap.to(projectDetails, {
+        opacity: 0,
+        y: 20,
+        duration: 0.3,
+        ease: "power2.out",
+        onComplete: () => {
+          // Update content
+          if (projectName) {
+            projectName.textContent = project.name;
+            projectName.style.color = project.color;
+          }
+          if (projectStatus) {
+            projectStatus.textContent = project.status;
+            projectStatus.style.background = `${project.statusColor}20`;
+            projectStatus.style.color = project.statusColor;
+            projectStatus.style.borderColor = `${project.statusColor}40`;
+          }
+          if (projectDescription) {
+            projectDescription.textContent = project.longDescription;
+          }
+
+          // Update CSS variables for border animation
+          if (projectDetails) {
+            projectDetails.style.setProperty("--project-color", project.color);
+            projectDetails.style.setProperty(
+              "--project-color-rgb",
+              project.colorRgb
+            );
+          }
+
+          // Update technologies
+          if (projectTechnologies) {
+            projectTechnologies.innerHTML = project.technologies
+              .map(
+                (tech: string) =>
+                  `<span class="px-4 py-2 rounded-xl text-sm font-medium border transition-all duration-300 hover:scale-105" style="background: rgba(${project.colorRgb}, 0.15); color: ${project.color}; border-color: rgba(${project.colorRgb}, 0.3);">${tech}</span>`
+              )
+              .join("");
+          }
+
+          // Update links
+          const githubLink = `<a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105" style="background: rgba(${project.colorRgb}, 0.2); color: ${project.color}; border: 2px solid rgba(${project.colorRgb}, 0.4);"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>View on GitHub</a>`;
+
+          const liveLink = project.liveUrl
+            ? `<a href="${project.liveUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105" style="background: rgba(${project.colorRgb}, 0.2); color: ${project.color}; border: 2px solid rgba(${project.colorRgb}, 0.4);"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Live Demo</a>`
+            : "";
+
+          if (projectLinks) {
+            projectLinks.innerHTML = githubLink + liveLink;
+          }
+
+          // Animate back in
+          gsap.to(projectDetails, {
+            opacity: 1,
+            y: 0,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        },
+      });
+    }
+
+    // Add click listeners to project items
+    projectItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        const projectIdAttr = item.getAttribute("data-project-id");
+        if (projectIdAttr) {
+          const projectId = parseInt(projectIdAttr);
+          const project = projects.find((p) => p.id === projectId);
+          if (project) {
+            updateProjectDetails(project);
+          }
+        }
+      });
+    });
+
+    // Set first project as active initially
+    const firstItem = document.querySelector('[data-project-id="1"]');
+    if (firstItem) {
+      firstItem.classList.add("active");
+    }
+
+    // Enhanced hover effects
+    projectItems.forEach((item) => {
+      item.addEventListener("mouseenter", () => {
+        gsap.to(item, {
+          y: -4,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      });
+
+      item.addEventListener("mouseleave", () => {
+        gsap.to(item, {
+          y: 0,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      });
+    });
+  });
+</script>

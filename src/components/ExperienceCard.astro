@@ -1,0 +1,434 @@
+---
+interface Props {
+  exp: {
+    company: string;
+    role: string;
+    period: string;
+    location: string;
+    description: string;
+    technologies: string[];
+    logo: string;
+    color: string;
+    colorRgb?: string;
+    longDescription: string;
+  };
+  index: number;
+}
+
+const { exp, index } = Astro.props;
+---
+
+<div
+  class="experience-card"
+  data-index={index}
+  data-company={exp.company.toLowerCase().replace(/\s+/g, "-")}
+>
+  <div
+    class="card-content"
+    style={`--company-color: ${exp.color}; --company-color-rgb: ${exp.colorRgb ?? "185, 123, 250"};`}
+  >
+    <!-- Company logo -->
+    <div class="company-logo">
+      <img src={exp.logo} alt={`${exp.company} logo`} class="logo-image" />
+    </div>
+
+    <!-- Company information -->
+    <div class="company-info">
+      <h3 class="company-name">{exp.company}</h3>
+      <h4 class="role-title">{exp.role}</h4>
+      <div class="period-location">
+        <span class="period">{exp.period}</span>
+        <span class="location">{exp.location}</span>
+      </div>
+    </div>
+
+    <!-- Technologies -->
+    <div class="technologies">
+      <h5 class="tech-title">Technologies used:</h5>
+      <div class="tech-tags">
+        {exp.technologies.map((tech) => <span class="tech-tag">{tech}</span>)}
+      </div>
+    </div>
+
+    <!-- Long description - hidden on mobile by default -->
+    <div class="detailed-description">
+      <h5 class="detail-title">Detailed Experience</h5>
+      <p class="detail-text">{exp.longDescription}</p>
+    </div>
+
+    <!-- Mobile expand button -->
+    <button class="expand-btn" data-target={`card-${index}`}>
+      <span class="expand-text">Show Details</span>
+      <svg
+        class="expand-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<style>
+  .experience-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    position: relative;
+  }
+
+  .card-content {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    padding: 0.75rem;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .company-logo {
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .logo-image {
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.1rem;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+  }
+
+  .logo-image:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .company-info {
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .company-name {
+    font-size: 0.875rem;
+    font-weight: bold;
+    margin-bottom: 0.125rem;
+    color: var(--company-color, #b97bfa);
+  }
+
+  .role-title {
+    font-size: 0.75rem;
+    color: white;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+
+  .period-location {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    color: #9ca3af;
+    font-size: 0.625rem;
+  }
+
+  .technologies {
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .tech-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--company-color, #b97bfa);
+  }
+
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    justify-content: center;
+  }
+
+  .tech-tag {
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.375rem;
+    font-size: 0.5rem;
+    border: 1px solid;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: rgba(var(--company-color-rgb, 185, 123, 250), 0.15);
+    color: var(--company-color, #b97bfa);
+    border-color: rgba(var(--company-color-rgb, 185, 123, 250), 0.3);
+  }
+
+  .tech-tag:hover {
+    transform: scale(1.05);
+  }
+
+  .detailed-description {
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .detail-title {
+    font-weight: 600;
+    margin-bottom: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--company-color, #b97bfa);
+  }
+
+  .detail-text {
+    color: #d1d5db;
+    line-height: 1.4;
+    font-size: 0.75rem;
+    text-align: justify;
+  }
+
+  .expand-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(var(--company-color-rgb, 185, 123, 250), 0.1);
+    border: 1px solid rgba(var(--company-color-rgb, 185, 123, 250), 0.3);
+    border-radius: 0.75rem;
+    color: var(--company-color, #b97bfa);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    cursor: pointer;
+  }
+
+  .expand-btn:hover {
+    background: rgba(var(--company-color-rgb, 185, 123, 250), 0.2);
+  }
+
+  .expand-icon {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.3s ease;
+  }
+
+  .expand-btn.expanded .expand-icon {
+    transform: rotate(180deg);
+  }
+
+  /* Common hover effects */
+  .card-content::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      var(--company-color, #b97bfa) 0%,
+      transparent 100%
+    );
+    opacity: 0.1;
+    transition: opacity 0.3s ease;
+  }
+
+  .card-content:hover {
+    border-color: var(--company-color, #b97bfa);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-4px);
+  }
+
+  .card-content:hover::before {
+    opacity: 0.2;
+  }
+
+  /* Desktop styles (lg and above) */
+  @media (min-width: 1024px) {
+    .experience-card {
+      padding: 1.5rem;
+    }
+
+    .card-content {
+      border-radius: 2rem;
+      padding: 2.5rem;
+    }
+
+    .logo-image {
+      width: 5rem;
+      height: 5rem;
+      padding: 0.25rem;
+    }
+
+    .company-name {
+      font-size: 1.5rem;
+    }
+
+    .role-title {
+      font-size: 1.2rem;
+    }
+
+    .period-location {
+      font-size: 1rem;
+    }
+
+    .tech-title {
+      font-size: 1.25rem;
+    }
+
+    .tech-tag {
+      font-size: 1rem;
+      padding: 0.375rem 0.75rem;
+    }
+
+    .detail-title {
+      font-size: 1.25rem;
+    }
+
+    .detail-text {
+      font-size: 1rem;
+    }
+
+    .card-content:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  /* Large desktop styles (xl and above) */
+  @media (min-width: 1280px) {
+    .card-content {
+      padding: 2rem;
+    }
+
+    .logo-image {
+      width: 6rem;
+      height: 6rem;
+      padding: 0.5rem;
+    }
+
+    .company-name {
+      font-size: 2.5rem;
+    }
+
+    .role-title {
+      font-size: 1.875rem;
+    }
+
+    .period-location {
+      font-size: 1.125rem;
+    }
+
+    .tech-title {
+      font-size: 1.5rem;
+    }
+
+    .tech-tag {
+      font-size: 1.125rem;
+      padding: 0.5rem 1rem;
+    }
+
+    .detail-title {
+      font-size: 1.3rem;
+    }
+
+    .detail-text {
+      font-size: 1.125rem;
+    }
+  }
+
+  /* Mobile styles (below lg) */
+  @media (max-width: 1023px) {
+    .experience-card {
+      padding: 0.5rem;
+    }
+
+    .card-content {
+      border-radius: 1rem;
+      padding: 1.5rem;
+      min-height: auto;
+    }
+
+    .detailed-description {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .detailed-description.expanded {
+      max-height: 500px;
+      opacity: 1;
+      margin-top: 1rem;
+    }
+
+    .expand-btn {
+      display: flex;
+    }
+
+    .card-content:hover {
+      transform: none;
+    }
+  }
+
+  /* Tablet specific adjustments */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .card-content {
+      padding: 2rem;
+    }
+
+    .logo-image {
+      width: 4.5rem;
+      height: 4.5rem;
+      padding: 0.1rem;
+    }
+
+    .company-name {
+      font-size: 1.75rem;
+    }
+
+    .role-title {
+      font-size: 1.375rem;
+    }
+
+    .period-location {
+      font-size: 0.9375rem;
+    }
+
+    .tech-title {
+      font-size: 1.1875rem;
+    }
+
+    .tech-tag {
+      font-size: 0.9375rem;
+      padding: 0.3125rem 0.625rem;
+    }
+
+    .detail-title {
+      font-size: 1.1875rem;
+    }
+
+    .detail-text {
+      font-size: 0.9375rem;
+    }
+  }
+</style>

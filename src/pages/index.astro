@@ -9,6 +9,8 @@ import { Image } from "astro:assets";
 import profile from "../assets/profile.webp";
 import TechStack from "../section/TechStack.astro";
 import Projects from "../section/Projects.astro";
+import Experience from "../section/Experience.astro";
+import Contact from "../section/Contact.astro";
 ---
 
 <Layout>
@@ -47,8 +49,10 @@ import Projects from "../section/Projects.astro";
       <BallButton title="Scroll Down" id="scroll-btn" />
     </section>
     <AboutMe is:client="load" />
-    <TechStack />
+    <Experience />
     <Projects />
+    <TechStack />
+    <Contact />
   </main>
 
   <script>
